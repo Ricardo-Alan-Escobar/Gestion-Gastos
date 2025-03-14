@@ -15,7 +15,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Facturas',
-        url: '/',
+        url: '/facturas',
         icon: FileText,
     },
     {

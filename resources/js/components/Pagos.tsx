@@ -11,7 +11,7 @@ const Pagos: React.FC = () => {
             <div className='flex justify-between items-center'>
             <div>
             <h1 className='text-2xl font-bold'>Pagos Pendientes</h1>
-            <p className='text-md'>Gestión de pagos pendientes</p>
+            <p className='text-md text-gray-300'>Gestión de pagos pendientes</p>
             </div>
             <div>
                 <Button size='lg' variant='default' className=' font-extrabold cursor-pointer'> <Plus/> Nuevo Pago</Button>
