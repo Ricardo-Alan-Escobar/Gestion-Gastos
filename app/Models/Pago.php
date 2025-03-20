@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Pago extends Model
 {
-    protected $fillable = ['nombre', 'tipo', 'monto', 'fecha'];
+    protected $fillable = ['nombre', 'tipo', 'monto', 'fecha', 'icono'];
 }

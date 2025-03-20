@@ -11,6 +11,8 @@ Route::get('/', function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [PagoController::class, 'index'])->name('dashboard');
     Route::post('/pagos', [PagoController::class, 'store'])->name('pagos.store');
+    Route::put('/pagos/{pago}', [PagoController::class, 'update']);
+Route::delete('/pagos/{pago}', [PagoController::class, 'destroy']);
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
