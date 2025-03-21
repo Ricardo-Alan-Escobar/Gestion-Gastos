@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('pagos', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->enum('tipo', ['mensual', 'anual']);
+            $table->enum('tipo', ['mensual', 'anual', 'bimestral']);
             $table->decimal('monto', 10, 2);
             $table->date('fecha');
             $table->timestamps();
