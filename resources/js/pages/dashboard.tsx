@@ -24,7 +24,9 @@ export default function Dashboard() {
                 </div>
                 <div className='flex flex-row gap-4'>
                 <Pagos/>
+            
                 <Resumen/>
+              
                 </div>
             </div>
         </AppLayout>

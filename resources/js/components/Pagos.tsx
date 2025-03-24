@@ -45,6 +45,7 @@ const Pagos: React.FC = () => {
     e.preventDefault();
     await Inertia.post('/pagos', nuevoPago);
     setModalOpen(false);
+    window.location.reload();
   };
 
   const handleEditClick = (pago: Pago) => {
@@ -57,6 +58,7 @@ const Pagos: React.FC = () => {
       await axios.delete(`/pagos/${id}`);
       setPagos(pagos.filter(pago => pago.id !== id));
     }
+    window.location.reload();
   };
   
   const handleUpdate = async (e: React.FormEvent) => {
@@ -66,6 +68,7 @@ const Pagos: React.FC = () => {
       setPagos(pagos.map(p => (p.id === editandoPago.id ? editandoPago : p)));
       setEditandoPago(null);
       setModalOpen(false);
+      window.location.reload();
     }
   };
   return (
@@ -73,7 +76,7 @@ const Pagos: React.FC = () => {
       <div className='flex justify-between items-center mb-4'>
         <div>
           <h1 className='text-2xl font-bold'>Pagos Pendientes</h1>
-          <p className='text-md text-gray-300'>Gestión de pagos pendientes</p>
+          <p className='text-md '>Gestión de pagos pendientes</p>
         </div>
         <Button size='lg' variant='default' className='font-extrabold cursor-pointer' onClick={() => setModalOpen(true)}>
           <Plus /> Nuevo Pago
@@ -113,7 +116,7 @@ const Pagos: React.FC = () => {
 
       {/* Modal para agregar pagos */}
       {modalOpen && (
-        <div className="fixed inset-0 bg-neutral-950 bg-opacity-50 flex items-center justify-center">
+        <div className="fixed inset-0 z-50 bg-neutral-950 bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-5 rounded-lg">
             <h2 className="text-xl font-bold text-gray-900">Nuevo Pago</h2>
             <p className="text-md mb-4 text-gray-500">Completa los detalles para registrar un nuevo pago programado.</p>

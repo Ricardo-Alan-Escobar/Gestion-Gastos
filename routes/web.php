@@ -13,6 +13,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/pagos', [PagoController::class, 'store'])->name('pagos.store');
     Route::put('/pagos/{pago}', [PagoController::class, 'update']);
 Route::delete('/pagos/{pago}', [PagoController::class, 'destroy']);
+Route::get('/pagos', [PagoController::class, 'index']);
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
