@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from './ui/button';
-import { Plus, Droplets, Lightbulb, Globe, Phone, FolderCode, Database,CircleHelp, Trash, Pencil } from 'lucide-react';
+import { Plus, Droplets, Lightbulb, Globe, Phone, FolderCode, Database, CircleHelp, Trash, Pencil, MoreVertical  } from 'lucide-react';
 import { Inertia } from '@inertiajs/inertia';
 import axios from 'axios';
 
@@ -27,6 +27,7 @@ const Pagos: React.FC = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [nuevoPago, setNuevoPago] = useState({ nombre: '', tipo: 'mensual', monto: 0, fecha: '', icono:'' });
   const [editandoPago, setEditandoPago] = useState<Pago | null>(null);
+  const [dropdownOpen, setDropdownOpen] = useState<number | null>(null);
 
   
   useEffect(() => {
@@ -88,7 +89,7 @@ const Pagos: React.FC = () => {
           {pagos.map((pago) => {
       const IconoSeleccionado = iconosDisponibles.find((icon) => icon.nombre === pago.icono)?.icono || Globe;
       return (
-        <div key={pago.id} className="border flex justify-between items-center rounded-lg shadow-md p-3">
+        <div key={pago.id} className="border flex justify-between items-center rounded-lg shadow-md dark:shadow-neutral-900 p-3">
           <div className='flex items-center space-x-3'>
         <div className='bg-neutral-700 p-3 rounded-full'>   
           <IconoSeleccionado className="w-7 h-7 text-gray-300" />
@@ -105,8 +106,23 @@ const Pagos: React.FC = () => {
         </p>
         <p>{pago.monto.toLocaleString('es-MX', { style: 'currency', currency: 'MXN' })} MXN</p>
         
-        <Button onClick={() => handleEditClick(pago)} className=" p-2 rounded cursor-pointer"><Pencil/></Button>
-        <Button onClick={() => handleDelete(pago.id)} className=" p-2 rounded cursor-pointer"><Trash/></Button>
+        <div className='relative'>
+                  <Button onClick={() => setDropdownOpen(dropdownOpen === pago.id ? null : pago.id)} className=" rounded cursor-pointer">
+                    <MoreVertical />
+                  </Button>
+                  {dropdownOpen === pago.id && (
+                    <div className="absolute right-0 mt-2 w-36 bg-white dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 rounded-lg shadow-md z-50">
+                      <p className='p-2'>Acciones</p>
+                      <hr className='bg-gray-500 h-0.5' />
+                      <button className="flex items-center w-full px-4  py-2 text-sm hover:bg-gray-200 dark:hover:bg-neutral-700" onClick={() => handleEditClick(pago)}>
+                        <Pencil className="w-4 h-4 mr-2" /> Editar
+                      </button>
+                      <button className="flex items-center w-full px-4 py-2 text-sm rounded-lg hover:bg-gray-200 dark:hover:bg-neutral-700 text-red-600" onClick={() => handleDelete(pago.id)}>
+                        <Trash className="w-4 h-4 mr-2" /> Eliminar
+                      </button>
+                    </div>
+                  )}
+                </div>
             </div>
           </div>
         );
