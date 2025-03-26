@@ -23,5 +23,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('facturas');
 });
 
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('proveedores', function () {
+        return Inertia::render('proveedores');
+    })->name('proveedores');
+});
+
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

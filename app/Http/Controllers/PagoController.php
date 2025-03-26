@@ -74,7 +74,7 @@ class PagoController extends Controller
 {
     $fechaActual = new \DateTime($pago->fecha);
 
-    // Verifica el tipo de pago y actualiza la fecha correspondiente
+   
     if ($pago->tipo === 'mensual') {
         $fechaActual->modify('+1 month');
     } elseif ($pago->tipo === 'anual') {

@@ -24,7 +24,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Proveedores',
-        url: '/',
+        url: '/proveedores',
         icon: Users ,
     },
 ];
