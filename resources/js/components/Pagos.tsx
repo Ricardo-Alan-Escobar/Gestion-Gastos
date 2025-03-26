@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from './ui/button';
-import { Plus, Droplets, Lightbulb, Globe, Phone, FolderCode, Database, CircleHelp, Trash, Pencil, MoreVertical  } from 'lucide-react';
+import { Plus, Droplets, Lightbulb, Globe, Phone, FolderCode, Database, CircleHelp, Trash, Pencil, MoreVertical, CircleCheckBig   } from 'lucide-react';
 import { Inertia } from '@inertiajs/inertia';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 interface Pago {
   id: number;
@@ -21,6 +22,7 @@ const iconosDisponibles = [
   { nombre: 'FolderCode', icono: FolderCode },
   { nombre: 'Database', icono: Database },
 ];
+
 
 const Pagos: React.FC = () => {
   const [pagos, setPagos] = useState<Pago[]>([]);
@@ -41,6 +43,31 @@ const Pagos: React.FC = () => {
     setNuevoPago({ ...nuevoPago, [e.target.name]: e.target.value });
   };
 
+  const handleMarcarPagado = async (id: number) => {
+    try {
+      const response = await axios.put(`/pagos/${id}/marcar-pagado`);
+      setPagos(pagos.map(pago => (pago.id === id ? response.data.pago : pago)));
+  
+      // Mostrar alerta de éxito
+      Swal.fire({
+        title: '¡Pagado!',
+        text: 'El pago ha sido marcado como pagado. Su fecha se ha actualizado.',
+        icon: 'success',
+        confirmButtonText: 'Aceptar'
+      });
+  
+    } catch (error) {
+      console.error("Error al marcar como pagado:", error);
+      
+      // Mostrar alerta de error
+      Swal.fire({
+        title: 'Error',
+        text: 'Hubo un problema al marcar el pago como pagado.',
+        icon: 'error',
+        confirmButtonText: 'Aceptar'
+      });
+    }
+  };
   
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -72,6 +99,9 @@ const Pagos: React.FC = () => {
       window.location.reload();
     }
   };
+
+
+  
   return (
     <div className='w-1/2 h-full p-5 bg-white dark:bg-neutral-950 border rounded-xl border-sidebar-border/70 dark:border-sidebar-border'>
       <div className='flex justify-between items-center mb-4'>
@@ -87,7 +117,7 @@ const Pagos: React.FC = () => {
       
       <div className="flex flex-col space-y-4">
           {pagos.map((pago) => {
-      const IconoSeleccionado = iconosDisponibles.find((icon) => icon.nombre === pago.icono)?.icono || Globe;
+      const IconoSeleccionado = iconosDisponibles.find((icon) => icon.nombre === pago.icono)?.icono || CircleHelp;
       return (
         <div key={pago.id} className="border flex justify-between items-center rounded-lg shadow-md dark:shadow-neutral-900 p-3">
           <div className='flex items-center space-x-3'>
@@ -111,15 +141,22 @@ const Pagos: React.FC = () => {
                     <MoreVertical />
                   </Button>
                   {dropdownOpen === pago.id && (
-                    <div className="absolute right-0 mt-2 w-36 bg-white dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 rounded-lg shadow-md z-50">
+                    <div className="absolute right-0 mt-2 w-50 bg-white dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 rounded-lg shadow-md z-50">
                       <p className='p-2'>Acciones</p>
                       <hr className='bg-gray-500 h-0.5' />
-                      <button className="flex items-center w-full px-4  py-2 text-sm hover:bg-gray-200 dark:hover:bg-neutral-700" onClick={() => handleEditClick(pago)}>
+                        <button
+                             className="flex items-center w-full px-4 py-2 text-sm  hover:bg-gray-200 dark:hover:bg-neutral-700 "
+                             onClick={() => handleMarcarPagado(pago.id)}
+                           >
+                            <CircleCheckBig  className="w-4 h-4 mr-2" />  Marcar como pagado
+                           </button>
+                        <button className="flex items-center w-full px-4  py-2 text-sm hover:bg-gray-200 dark:hover:bg-neutral-700" onClick={() => handleEditClick(pago)}>
                         <Pencil className="w-4 h-4 mr-2" /> Editar
                       </button>
                       <button className="flex items-center w-full px-4 py-2 text-sm rounded-lg hover:bg-gray-200 dark:hover:bg-neutral-700 text-red-600" onClick={() => handleDelete(pago.id)}>
                         <Trash className="w-4 h-4 mr-2" /> Eliminar
                       </button>
+
                     </div>
                   )}
                 </div>

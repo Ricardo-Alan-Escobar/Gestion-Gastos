@@ -69,4 +69,23 @@ class PagoController extends Controller
 
         return redirect()->route('dashboard');
     }
+
+    public function marcarComoPagado(Pago $pago)
+{
+    $fechaActual = new \DateTime($pago->fecha);
+
+    // Verifica el tipo de pago y actualiza la fecha correspondiente
+    if ($pago->tipo === 'mensual') {
+        $fechaActual->modify('+1 month');
+    } elseif ($pago->tipo === 'anual') {
+        $fechaActual->modify('+1 year');
+    } elseif ($pago->tipo === 'bimestral') {
+        $fechaActual->modify('+2 months');
+    }
+
+    $pago->fecha = $fechaActual->format('Y-m-d');
+    $pago->save();
+
+    return response()->json(['mensaje' => 'Pago marcado como pagado', 'pago' => $pago]);
+}
 }

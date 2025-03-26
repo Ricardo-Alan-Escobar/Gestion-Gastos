@@ -14,6 +14,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/pagos/{pago}', [PagoController::class, 'update']);
 Route::delete('/pagos/{pago}', [PagoController::class, 'destroy']);
 Route::get('/pagos', [PagoController::class, 'index']);
+Route::put('/pagos/{pago}/marcar-pagado', [PagoController::class, 'marcarComoPagado']);
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
