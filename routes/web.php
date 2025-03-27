@@ -17,11 +17,13 @@ Route::get('/pagos', [PagoController::class, 'index']);
 Route::put('/pagos/{pago}/marcar-pagado', [PagoController::class, 'marcarComoPagado']);
 });
 
+
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('facturas', function () {
         return Inertia::render('facturas');
     })->name('facturas');
 });
+
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('proveedores', function () {

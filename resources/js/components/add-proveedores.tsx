@@ -32,7 +32,19 @@ const Resumen: React.FC = () => {
           <p className='text-md '>Información y servicios contratados</p>
         </div>
         
+       
       </div>
+       <div>
+       <p> {"Tipo"}</p>
+
+            <p>Contacto: {"Contacto"}</p> 
+            <p>Telefono: {"Telefono"}</p>
+            <p>Correo: {"Correo"}</p>
+            <p>Direccion: {"Direccion"}</p>
+            <p>Sitio web: {"sitioweb"}</p>
+
+            <p>Notas: {"Notas"}</p>
+        </div>
         </div>
         </>
     );
