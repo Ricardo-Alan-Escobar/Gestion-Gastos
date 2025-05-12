@@ -3,6 +3,8 @@ import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
 import Add from '@/components/add-proveedores';
+import { usePage } from '@inertiajs/react';
+import type { PageProps, Proveedor } from '@/types';
 
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -11,8 +13,9 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/proveedores',
     },
 ];
-
+ 
 export default function Proveedores() {
+const { proveedores } = usePage<PageProps>().props;
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Proveedores" />
@@ -22,7 +25,8 @@ export default function Proveedores() {
                     <p>Gestiona tus proveedores de servicios y sus datos de contacto.</p>
                 </div>
                 <div className='flex flex-row gap-4'>
-                <Add/>
+               <Add proveedores={proveedores ?? []} />
+
             
               
               

@@ -40,3 +40,18 @@ export interface User {
     updated_at: string;
     [key: string]: unknown; // This allows for additional properties...
 }
+export type Proveedor = {
+  id: number;
+  tipo: string;
+  contacto: string;
+  telefono: string;
+  correo: string;
+  direccion: string;
+  sitio_web: string;
+  notas: string;
+};
+
+export interface PageProps {
+  proveedores: Proveedor[];
+  [key: string]: any;  // Índice dinámico añadido para cumplir con lo que Inertia espera
+}

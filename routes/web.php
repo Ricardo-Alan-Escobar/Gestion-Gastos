@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\PagoController;
 
 Route::get('/', function () {
@@ -15,6 +16,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::delete('/pagos/{pago}', [PagoController::class, 'destroy']);
 Route::get('/pagos', [PagoController::class, 'index']);
 Route::put('/pagos/{pago}/marcar-pagado', [PagoController::class, 'marcarComoPagado']);
+Route::get('/proveedores', [ProveedorController::class, 'index'])->name('proveedores.index');
+Route::post('/proveedores', [ProveedorController::class, 'store'])->name('proveedores.store');
+Route::get('/proveedores/{proveedor}', [ProveedorController::class, 'show'])->name('proveedores.show');
 });
 
 
