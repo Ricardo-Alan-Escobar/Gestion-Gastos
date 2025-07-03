@@ -31,7 +31,7 @@ const Add: React.FC<Props> = ({ proveedores }) => {
     sitio_web: '',
     notas: '',
   });
-
+ 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     post('/proveedores', {
