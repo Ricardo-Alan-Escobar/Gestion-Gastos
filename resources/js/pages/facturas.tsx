@@ -5,7 +5,8 @@ import { FileText } from 'lucide-react';
 import { ChangeEvent } from 'react';
 import {Button} from '@/components/ui/button';
 import { useEffect, useState } from 'react';
-
+import Swal from 'sweetalert2';
+import 'sweetalert2/src/sweetalert2.scss';
 
 type Factura = {
     id: number;
@@ -47,17 +48,110 @@ export default function Facturas({ facturas }: Props) {
     };
 
     const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        post('/facturas/upload', {
-            onSuccess: () => reset(),
-        });
-    };
+    e.preventDefault();
+    post('/facturas/upload', {
+        onSuccess: () => {
+            reset();
+
+            Swal.fire({
+                title: 'Archivo subido correctamente',
+                text: 'Ya está disponible en tu lista de facturas.',
+                icon: 'success',
+                timer: 2000,
+                showConfirmButton: false,
+                background: '#171717',
+                color: '#fff',
+                toast: true,
+                position: 'top-end',
+                customClass: {
+                    popup: 'text-sm rounded-md shadow-lg border-2 border-green-500',
+                }
+            });
+        },
+        onError: () => {
+            Swal.fire({
+                title: 'Error al subir el archivo',
+                text: 'Revisa que el archivo sea válido.',
+                icon: 'error',
+                background: '#171717',
+                color: '#fff',
+                toast: true,
+                position: 'top-end',
+                timer: 2500,
+                showConfirmButton: false,
+                customClass: {
+                    popup: 'text-sm rounded-md shadow-lg border-2 border-red-500',
+                }
+            });
+        }
+    });
+};
+
 
     const handleDelete = (id: number) => {
-    if (confirm('¿Estás seguro de que deseas eliminar esta factura?')) {
-        router.delete(`/facturas/${id}`);
-    }
+    Swal.fire({
+        title: '¿Eliminar factura?',
+        text: 'Esta acción no se puede deshacer.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar',
+        background: '#171717',
+        color: '#fff',
+        iconColor: '#f87171',
+        confirmButtonColor: '#ef4444',
+        cancelButtonColor: '#6b7280',
+        toast: true,
+        position: 'top-end',
+        showClass: {
+            popup: 'swal2-noanimation',
+            backdrop: 'swal2-noanimation'
+        },
+        customClass: {
+            popup: 'text-sm rounded-md shadow-lg border-2 border-red-500',
+            confirmButton: 'text-sm px-4 py-2',
+            cancelButton: 'text-sm px-4 py-2'
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            router.delete(`/facturas/${id}`, {
+                onSuccess: () => {
+                    Swal.fire({
+                        title: 'Eliminado correctamente',
+                        icon: 'success',
+                        timer: 2000,
+                        showConfirmButton: false,
+                        background: '#171717',
+                        color: '#fff',
+                        toast: true,
+                        position: 'top-end',
+                        customClass: {
+                            popup: 'text-sm rounded-md shadow-lg border-2 border-green-500',
+                        }
+                    });
+                },
+                onError: () => {
+                    Swal.fire({
+                        title: 'Error al eliminar',
+                        text: 'No se pudo eliminar la factura.',
+                        icon: 'error',
+                        background: '#171717',
+                        color: '#fff',
+                        toast: true,
+                        position: 'top-end',
+                        timer: 2500,
+                        showConfirmButton: false,
+                        customClass: {
+                            popup: 'text-sm rounded-md shadow-lg border-2 border-red-500',
+                        }
+                    });
+                }
+            });
+        }
+    });
 };
+
+
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -208,7 +302,7 @@ export default function Facturas({ facturas }: Props) {
                          })
                          .map((factura) => (
 
-                        <li key={factura.id} className="flex items-center mt-2 justify-between p-3 border rounded-lg dark:border-neutral-700">
+                        <li key={factura.id} className="flex items-center bg-[#171717] mt-2 justify-between p-3 border rounded-lg">
                             <span className="truncate max-w-xs">
                                 {factura.nombre}
                                 <span className="block text-xs text-gray-500 dark:text-gray-400">
