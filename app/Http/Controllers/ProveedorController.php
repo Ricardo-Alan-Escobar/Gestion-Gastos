@@ -12,7 +12,7 @@ class ProveedorController extends Controller
     {
         $proveedores = Proveedor::all();
 
-        return Inertia::render('Proveedores', [
+        return Inertia::render('proveedores', [
             'proveedores' => $proveedores
         ]);
     }

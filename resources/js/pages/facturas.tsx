@@ -302,7 +302,7 @@ export default function Facturas({ facturas }: Props) {
                          })
                          .map((factura) => (
 
-                        <li key={factura.id} className="flex items-center bg-[#171717] mt-2 justify-between p-3 border rounded-lg">
+                        <li key={factura.id} className="flex items-center bg-[#171717] hover:bg-[181818] mt-2 justify-between p-3 border rounded-lg">
                             <span className="truncate max-w-xs">
                                 {factura.nombre}
                                 <span className="block text-xs text-gray-500 dark:text-gray-400">
