@@ -49,32 +49,73 @@ const Pagos: React.FC = () => {
       setPagos(pagos.map(pago => (pago.id === id ? response.data.pago : pago)));
   
       // Mostrar alerta de éxito
-      Swal.fire({
-        title: '¡Pagado!',
-        text: 'El pago ha sido marcado como pagado. Su fecha se ha actualizado.',
-        icon: 'success',
-        confirmButtonText: 'Aceptar'
-      });
+             Swal.fire({
+          title: '¡Pagado!',
+          text: 'El pago ha sido marcado como pagado. Su fecha se ha actualizado.',
+          icon: 'success',
+          background: '#171717',
+          color: '#fff',
+          toast: true,
+          position: 'top-end',
+          timer: 2500,
+          showConfirmButton: false,
+          customClass: {
+            popup: 'text-sm rounded-md shadow-lg border-2 border-green-500',
+          }
+        });
+
   
     } catch (error) {
       console.error("Error al marcar como pagado:", error);
       
       // Mostrar alerta de error
-      Swal.fire({
-        title: 'Error',
-        text: 'Hubo un problema al marcar el pago como pagado.',
-        icon: 'error',
-        confirmButtonText: 'Aceptar'
-      });
+             Swal.fire({
+          title: 'Error',
+          text: 'Hubo un problema al marcar el pago como pagado.',
+          icon: 'error',
+          background: '#171717',
+          color: '#fff',
+          toast: true,
+          position: 'top-end',
+          timer: 2500,
+          showConfirmButton: false,
+          customClass: {
+            popup: 'text-sm rounded-md shadow-lg border-2 border-red-500',
+          }
+        });
     }
   };
   
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    await Inertia.post('/pagos', nuevoPago);
-    setModalOpen(false);
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  await Inertia.post('/pagos', nuevoPago);
+
+  // Mostrar alerta tipo toast de éxito
+  Swal.fire({
+    title: '¡Pagado!',
+    text: 'El pago ha sido marcado como pagado. Su fecha se ha actualizado.',
+    icon: 'success',
+    background: '#171717',
+    color: '#fff',
+    toast: true,
+    position: 'top-end',
+    timer: 2500,
+    showConfirmButton: false,
+    customClass: {
+      popup: 'text-sm rounded-md shadow-lg border-2 border-green-500',
+    },
+  });
+
+  setModalOpen(false);
+
+  // Esperar a que desaparezca el toast antes de recargar
+  setTimeout(() => {
     window.location.reload();
-  };
+  }, 2500);
+};
+
+
 
   const handleEditClick = (pago: Pago) => {
     setEditandoPago(pago);
@@ -82,23 +123,89 @@ const Pagos: React.FC = () => {
   };
   
   const handleDelete = async (id: number) => {
-    if (window.confirm('¿Estás seguro de que deseas eliminar este pago?')) {
-      await axios.delete(`/pagos/${id}`);
-      setPagos(pagos.filter(pago => pago.id !== id));
-    }
-    window.location.reload();
-  };
+  const result = await Swal.fire({
+    title: '¿Eliminar pago?',
+    text: 'Esta acción no se puede deshacer.',
+    icon: 'warning',
+    background: '#171717',
+    color: '#fff',
+    iconColor: '#f87171',
+    showCancelButton: true,
+    confirmButtonText: 'Sí, eliminar',
+    cancelButtonText: 'Cancelar',
+    confirmButtonColor: '#ef4444',
+    cancelButtonColor: '#6b7280',
+    toast: true,
+    position: 'top-end',
+    showClass: {
+      popup: 'swal2-noanimation',
+      backdrop: 'swal2-noanimation',
+    },
+    customClass: {
+      popup: 'text-sm rounded-md shadow-lg border-2 border-red-500',
+      confirmButton: 'text-sm px-4 py-2',
+      cancelButton: 'text-sm px-4 py-2',
+    },
+  });
+
+  if (result.isConfirmed) {
+    await axios.delete(`/pagos/${id}`);
+    setPagos(prev => prev.filter(pago => pago.id !== id));
+
+    Swal.fire({
+      title: '¡Eliminado!',
+      text: 'El pago ha sido eliminado correctamente.',
+      icon: 'success',
+      background: '#171717',
+      color: '#fff',
+      toast: true,
+      position: 'top-end',
+      timer: 2500,
+      showConfirmButton: false,
+      customClass: {
+        popup: 'text-sm rounded-md shadow-lg border-2 border-green-500',
+      },
+    });
+
+    setTimeout(() => {
+      window.location.reload();
+    }, 2500);
+  }
+};
+
   
-  const handleUpdate = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (editandoPago) {
-      await axios.put(`/pagos/${editandoPago.id}`, editandoPago);
-      setPagos(pagos.map(p => (p.id === editandoPago.id ? editandoPago : p)));
-      setEditandoPago(null);
+const handleUpdate = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  if (editandoPago) {
+    await axios.put(`/pagos/${editandoPago.id}`, editandoPago);
+    setPagos(pagos.map(p => (p.id === editandoPago.id ? editandoPago : p)));
+    setEditandoPago(null);
+
+    // Mostrar alerta tipo toast
+    Swal.fire({
+      title: '¡Actualizado!',
+      text: 'El pago ha sido actualizado correctamente.',
+      icon: 'success',
+      background: '#171717',
+      color: '#fff',
+      toast: true,
+      position: 'top-end',
+      timer: 2500,
+      showConfirmButton: false,
+      customClass: {
+        popup: 'text-sm rounded-md shadow-lg border-2 border-green-500',
+      },
+    });
+
+    // Esperar antes de cerrar el modal y recargar
+    setTimeout(() => {
       setModalOpen(false);
       window.location.reload();
-    }
-  };
+    }, 2500); // igual al tiempo del toast
+  }
+};
+
 
 
   

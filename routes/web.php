@@ -23,6 +23,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/proveedores', [ProveedorController::class, 'index'])->name('proveedores.index');
     Route::post('/proveedores', [ProveedorController::class, 'store'])->name('proveedores.store');
     Route::get('/proveedores/{proveedor}', [ProveedorController::class, 'show'])->name('proveedores.show');
+    Route::put('/proveedores/{proveedor}', [ProveedorController::class, 'update'])->name('proveedores.update');
+    Route::delete('/proveedores/{proveedor}', [ProveedorController::class, 'destroy'])->name('proveedores.destroy');
+
 
     // Facturas (PDFs)
     Route::get('/facturas', [FacturaController::class, 'index'])->name('facturas.index');
