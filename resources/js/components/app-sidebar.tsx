@@ -19,7 +19,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Reportes',
-        url: '/',
+        url: '/reportes',
         icon: ChartColumn ,
     },
     {

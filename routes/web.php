@@ -32,6 +32,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/facturas/upload', [FacturaController::class, 'upload'])->name('facturas.upload');
     Route::delete('/facturas/{factura}', [FacturaController::class, 'destroy'])->name('facturas.destroy');
 
+
+});
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('reportes', [PagoController::class, 'reportes'])->name('reportes');
 });
 
 require __DIR__.'/settings.php';
