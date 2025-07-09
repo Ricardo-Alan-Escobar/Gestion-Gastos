@@ -25,7 +25,7 @@ class PagoController extends Controller
     {
         $request->validate([
             'nombre' => 'required|string',
-            'tipo' => 'required|in:mensual,anual',
+            'tipo' => 'required|in:mensual,anual,bimestral',
             'monto' => 'required|numeric',
             'fecha' => 'required|date',
             'icono' => 'nullable|string'
