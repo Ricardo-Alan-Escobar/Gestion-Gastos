@@ -7,6 +7,8 @@ use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Models\Notificacion;
 use Carbon\Carbon;
+use App\Models\User;
+use App\Notifications\NotificacionCorreo;
 
 class PagoController extends Controller
 {
@@ -28,11 +30,22 @@ public function index(Request $request)
                 ->exists();
 
             if (!$existe) {
-                Notificacion::create([
-                    'titulo' => 'Pago vence hoy',
-                    'mensaje' => "El pago '{$pago->nombre}' vence hoy ({$pago->fecha}).",
-                ]);
-            }
+    $titulo = 'Pago vence hoy';
+    $mensaje = "El pago '{$pago->nombre}' vence hoy ({$pago->fecha}).";
+
+    // Guardar en base de datos
+    Notificacion::create([
+        'titulo' => $titulo,
+        'mensaje' => $mensaje,
+    ]);
+
+    // Enviar notificación por correo a todos los usuarios
+    $usuarios = User::all();
+    foreach ($usuarios as $usuario) {
+        $usuario->notify(new NotificacionCorreo($titulo, $mensaje));
+    }
+}
+
         }
     }
 
@@ -111,10 +124,21 @@ public function index(Request $request)
     $pago->save();
 
     // Crear notificación manual
-    Notificacion::create([
-        'titulo' => 'Pago marcado como pagado',
-        'mensaje' => "El pago '{$pago->nombre}' fue marcado como pagado y su nueva fecha es {$pago->fecha}.",
-    ]);
+   $titulo = 'Pago marcado como pagado';
+$mensaje = "El pago '{$pago->nombre}' fue marcado como pagado y su nueva fecha es {$pago->fecha}.";
+
+// Base de datos
+Notificacion::create([
+    'titulo' => $titulo,
+    'mensaje' => $mensaje,
+]);
+
+// Correo
+$usuarios = User::all();
+foreach ($usuarios as $usuario) {
+    $usuario->notify(new NotificacionCorreo($titulo, $mensaje));
+}
+
 
     return response()->json(['mensaje' => 'Pago marcado como pagado', 'pago' => $pago]);
 }
@@ -133,11 +157,20 @@ foreach ($pagos as $pago) {
             ->exists();
 
         if (!$existe) {
-            \App\Models\Notificacion::create([
-                'titulo' => 'Pago vence hoy',
-                'mensaje' => "El pago '{$pago->nombre}' vence hoy ({$pago->fecha}).",
-            ]);
-        }
+    $titulo = 'Pago vence hoy';
+    $mensaje = "El pago '{$pago->nombre}' vence hoy ({$pago->fecha}).";
+
+    \App\Models\Notificacion::create([
+        'titulo' => $titulo,
+        'mensaje' => $mensaje,
+    ]);
+
+    $usuarios = \App\Models\User::all();
+    foreach ($usuarios as $usuario) {
+        $usuario->notify(new \App\Notifications\NotificacionCorreo($titulo, $mensaje));
+    }
+}
+
     }
 }
     // Agrupación por mes

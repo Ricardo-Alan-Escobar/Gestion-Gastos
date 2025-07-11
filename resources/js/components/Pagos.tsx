@@ -48,7 +48,7 @@ const Pagos: React.FC = () => {
       const response = await axios.put(`/pagos/${id}/marcar-pagado`);
       setPagos(pagos.map(pago => (pago.id === id ? response.data.pago : pago)));
   
-      // Mostrar alerta de éxito
+
              Swal.fire({
           title: '¡Pagado!',
           text: 'El pago ha sido marcado como pagado. Su fecha se ha actualizado.',
@@ -68,7 +68,7 @@ const Pagos: React.FC = () => {
     } catch (error) {
       console.error("Error al marcar como pagado:", error);
       
-      // Mostrar alerta de error
+     
              Swal.fire({
           title: 'Error',
           text: 'Hubo un problema al marcar el pago como pagado.',
@@ -91,7 +91,7 @@ const handleSubmit = async (e: React.FormEvent) => {
 
   await Inertia.post('/pagos', nuevoPago);
 
-  // Mostrar alerta tipo toast de éxito
+ 
   Swal.fire({
     title: '¡Pagado!',
     text: 'El pago ha sido marcado como pagado. Su fecha se ha actualizado.',
@@ -109,7 +109,7 @@ const handleSubmit = async (e: React.FormEvent) => {
 
   setModalOpen(false);
 
-  // Esperar a que desaparezca el toast antes de recargar
+ 
   setTimeout(() => {
     window.location.reload();
   }, 2500);
