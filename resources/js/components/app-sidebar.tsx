@@ -3,7 +3,7 @@ import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid, FileText, ChartColumn, Users   } from 'lucide-react';
+import { BookOpen, Folder, LayoutGrid, FileText, ChartColumn, Users, Bell   } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -27,6 +27,12 @@ const mainNavItems: NavItem[] = [
         url: '/proveedores',
         icon: Users ,
     },
+     {
+        title: 'Notificaciones',
+        url: '/notificaciones',
+        icon: Bell ,
+    },
+
 ];
 
 export function AppSidebar() {

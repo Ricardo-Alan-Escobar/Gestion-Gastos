@@ -5,21 +5,46 @@ namespace App\Http\Controllers;
 use App\Models\Pago;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use App\Models\Notificacion;
+use Carbon\Carbon;
 
 class PagoController extends Controller
 {
-    public function index(Request $request)
-    {
-        $pagos = Pago::all();
+    
+public function index(Request $request)
+{
+    $pagos = Pago::all();
 
-        if ($request->wantsJson()) {
-            return response()->json(['pagos' => $pagos]);
+    // Fecha de hoy
+    $hoy = Carbon::today()->format('Y-m-d');
+
+    // Verificar si hay pagos para hoy y no se ha notificado aún (opcional)
+    foreach ($pagos as $pago) {
+        if ($pago->fecha === $hoy) {
+            // Verificamos si ya existe una notificación para evitar duplicados
+            $existe = Notificacion::where('titulo', 'Pago vence hoy')
+                ->where('mensaje', "El pago '{$pago->nombre}' vence hoy ({$pago->fecha}).")
+                ->whereDate('created_at', $hoy)
+                ->exists();
+
+            if (!$existe) {
+                Notificacion::create([
+                    'titulo' => 'Pago vence hoy',
+                    'mensaje' => "El pago '{$pago->nombre}' vence hoy ({$pago->fecha}).",
+                ]);
+            }
         }
-
-        return Inertia::render('dashboard', [
-            'pagos' => $pagos
-        ]);
     }
+
+    if ($request->wantsJson()) {
+        return response()->json(['pagos' => $pagos]);
+    }
+
+    return Inertia::render('dashboard', [
+        'pagos' => $pagos
+    ]);
+}
+
 
     public function store(Request $request)
     {
@@ -74,7 +99,6 @@ class PagoController extends Controller
 {
     $fechaActual = new \DateTime($pago->fecha);
 
-   
     if ($pago->tipo === 'mensual') {
         $fechaActual->modify('+1 month');
     } elseif ($pago->tipo === 'anual') {
@@ -86,19 +110,43 @@ class PagoController extends Controller
     $pago->fecha = $fechaActual->format('Y-m-d');
     $pago->save();
 
+    // Crear notificación manual
+    Notificacion::create([
+        'titulo' => 'Pago marcado como pagado',
+        'mensaje' => "El pago '{$pago->nombre}' fue marcado como pagado y su nueva fecha es {$pago->fecha}.",
+    ]);
+
     return response()->json(['mensaje' => 'Pago marcado como pagado', 'pago' => $pago]);
 }
 
 public function reportes()
 {
     $pagos = \App\Models\Pago::all();
+$hoy = Carbon::today()->format('Y-m-d');
 
+
+foreach ($pagos as $pago) {
+    if ($pago->fecha === $hoy) {
+        $existe = \App\Models\Notificacion::where('titulo', 'Pago vence hoy')
+            ->where('mensaje', "El pago '{$pago->nombre}' vence hoy ({$pago->fecha}).")
+            ->whereDate('created_at', $hoy)
+            ->exists();
+
+        if (!$existe) {
+            \App\Models\Notificacion::create([
+                'titulo' => 'Pago vence hoy',
+                'mensaje' => "El pago '{$pago->nombre}' vence hoy ({$pago->fecha}).",
+            ]);
+        }
+    }
+}
     // Agrupación por mes
     $datosMensuales = $pagos->groupBy(function ($pago) {
-        return \Carbon\Carbon::parse($pago->fecha)->locale('es')->translatedFormat('F');
+        return Carbon::parse($pago->fecha)->locale('es')->translatedFormat('F');
+
     })->map(function ($grupo) {
         return [
-            'mes' => $grupo->first()->fecha ? \Carbon\Carbon::parse($grupo->first()->fecha)->format('F') : 'Sin Fecha',
+            'mes' => $grupo->first()->fecha ? Carbon::parse($grupo->first()->fecha)->format('F') : 'Sin Fecha',
             'total' => $grupo->sum('monto'),
         ];
     })->values();
@@ -116,7 +164,7 @@ public function reportes()
     return [
         'id' => $pago->id,
         'titulo' => $pago->nombre,
-        'fecha' => \Carbon\Carbon::parse($pago->fecha)->format('Y-m-d'),
+        'fecha' => Carbon::parse($pago->fecha)->format('Y-m-d'),
         'estado' => 'Revisado',
     ];
 })->values(); // <-- esto convierte a array secuencial
@@ -149,6 +197,11 @@ public function reportes()
         'ultimos' => $ultimos,
     ]);
 }
+
+
+
+
+
 
 
 }

@@ -5,6 +5,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\PagoController;
 use App\Http\Controllers\FacturaController;
+use App\Models\Notificacion;
 
 Route::get('/', function () {
     return Inertia::render('welcome');
@@ -39,6 +40,28 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('reportes', [PagoController::class, 'reportes'])->name('reportes');
 });
 
+Route::middleware(['auth'])->group(function () {
+
+    Route::get('/api/notificaciones', function () {
+        return Notificacion::orderBy('created_at', 'desc')->get();
+    });
+    Route::post('/api/notificaciones/leidas', function () {
+    \App\Models\Notificacion::where('leido', false)->delete();
+    return response()->json(['success' => true]);
+});
+
+    Route::get('/notificaciones', function () {
+        return Inertia::render('notificaciones'); 
+    })->name('notificaciones');
+    // Eliminar una notificación específica
+Route::delete('/api/notificaciones/{id}', function ($id) {
+    $notificacion = \App\Models\Notificacion::findOrFail($id);
+    $notificacion->delete();
+
+    return response()->json(['success' => true]);
+});
+
+});
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
