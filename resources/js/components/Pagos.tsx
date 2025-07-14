@@ -182,7 +182,7 @@ const handleUpdate = async (e: React.FormEvent) => {
     setPagos(pagos.map(p => (p.id === editandoPago.id ? editandoPago : p)));
     setEditandoPago(null);
 
-    // Mostrar alerta tipo toast
+  
     Swal.fire({
       title: '¡Actualizado!',
       text: 'El pago ha sido actualizado correctamente.',
@@ -198,7 +198,7 @@ const handleUpdate = async (e: React.FormEvent) => {
       },
     });
 
-    // Esperar antes de cerrar el modal y recargar
+   
     setTimeout(() => {
       setModalOpen(false);
       window.location.reload();
