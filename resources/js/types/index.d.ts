@@ -17,9 +17,9 @@ export interface NavGroup {
 
 export interface NavItem {
     title: string;
-    url: string;
-    icon?: LucideIcon | null;
-    isActive?: boolean;
+    url?: string; // <- ¡Hazlo opcional con `?`!
+    icon?: React.ElementType;
+    children?: NavItem[]; // <- Agrega esta línea para submenús
 }
 
 export interface SharedData {

@@ -6,16 +6,27 @@ import { Link } from '@inertiajs/react';
 import { BookOpen, Folder, LayoutGrid, FileText, ChartColumn, Users, Bell   } from 'lucide-react';
 import AppLogo from './app-logo';
 
+
 const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
         url: '/dashboard',
         icon: LayoutGrid,
     },
-    {
+   {
         title: 'Facturas',
-        url: '/facturas',
         icon: FileText,
+        children: [
+            {
+                title: 'Subir factura',
+                url: '/facturas',
+                
+            },
+            {
+                title: 'Historial',
+                url: '/gdf',
+            },
+        ],
     },
     {
         title: 'Reportes',
