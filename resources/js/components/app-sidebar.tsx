@@ -22,10 +22,7 @@ const mainNavItems: NavItem[] = [
                 url: '/facturas',
                 
             },
-            {
-                title: 'Historial',
-                url: '/gdf',
-            },
+          
         ],
     },
     {
