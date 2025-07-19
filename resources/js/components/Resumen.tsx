@@ -40,7 +40,7 @@ const Resumen: React.FC = () => {
     }, []);
 
     return (
-        <div className='w-1/2 h-full p-5 bg-white dark:bg-neutral-950 border rounded-xl border-sidebar-border/70 dark:border-sidebar-border'>
+        <div className='w-1/2 h-[36%] p-5 bg-white dark:bg-neutral-950 border rounded-xl border-sidebar-border/70 dark:border-sidebar-border'>
             <div className='flex flex-col gap-4'>
                 <h1 className='text-2xl font-bold'>Resumen</h1>
 

@@ -11,7 +11,7 @@ interface Notificacion {
     id: number;
     titulo: string;
     mensaje: string;
-    leido: boolean;
+    leido: boolean; 
     created_at: string;
 }
 

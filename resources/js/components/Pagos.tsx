@@ -210,8 +210,8 @@ const handleUpdate = async (e: React.FormEvent) => {
 
   
   return (
-    <div className='w-1/2 h-full p-5 bg-white dark:bg-neutral-950 border rounded-xl border-sidebar-border/70 dark:border-sidebar-border'>
-      <div className='flex justify-between items-center mb-4'>
+   <div className='w-1/2 p-5 bg-white dark:bg-neutral-950 border rounded-xl border-sidebar-border/70 dark:border-sidebar-border h-[36%] flex flex-col'>
+      <div className='flex justify-between items-center mb-4 flex-shrink-0'>
         <div>
           <h1 className='text-2xl font-bold'>Pagos Pendientes</h1>
           <p className='text-md '>Gestión de pagos pendientes</p>
@@ -222,7 +222,7 @@ const handleUpdate = async (e: React.FormEvent) => {
       </div>
 
       
-      <div className="flex flex-col space-y-4">
+     <div className="flex flex-col space-y-4 overflow-y-auto flex-grow">
           {pagos.map((pago) => {
       const IconoSeleccionado = iconosDisponibles.find((icon) => icon.nombre === pago.icono)?.icono || CircleHelp;
       return (
