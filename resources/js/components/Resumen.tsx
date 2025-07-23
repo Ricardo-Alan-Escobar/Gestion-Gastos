@@ -13,7 +13,7 @@ const Resumen: React.FC = () => {
     useEffect(() => {
         const fetchPagos = async () => {
             try {
-                const response = await axios.get('/pagos'); // Ruta en Laravel
+                const response = await axios.get('/pagos'); 
                 const pagos = response.data.pagos;
 
                 const totalMensual = pagos
@@ -26,7 +26,7 @@ const Resumen: React.FC = () => {
 
                 const totalGeneral = pagos.reduce((acc: number, pago: any) => acc + pago.monto, 0);
 
-                // Buscar el próximo pago más cercano
+               
                 const pagosOrdenados = [...pagos].sort((a, b) => new Date(a.fecha).getTime() - new Date(b.fecha).getTime());
                 const proximoPago = pagosOrdenados.length > 0 ? pagosOrdenados[0].monto : 0;
 

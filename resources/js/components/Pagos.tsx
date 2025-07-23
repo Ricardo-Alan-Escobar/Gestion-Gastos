@@ -202,7 +202,7 @@ const handleUpdate = async (e: React.FormEvent) => {
     setTimeout(() => {
       setModalOpen(false);
       window.location.reload();
-    }, 2500); // igual al tiempo del toast
+    }, 2500); 
   }
 };
 
@@ -274,7 +274,7 @@ const handleUpdate = async (e: React.FormEvent) => {
             </div>
 
 
-      {/* Modal para agregar pagos */}
+     
       {modalOpen && (
         <div className="fixed inset-0 z-50 bg-neutral-950 bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-5 rounded-lg">
