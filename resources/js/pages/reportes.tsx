@@ -10,7 +10,7 @@ const breadcrumbs: BreadcrumbItem[] = [
   { title: 'Reportes', href: '/reportes' },
 ];
 
-// Define las props esperadas desde el backend
+
 type ReportesProps = {
   resumen: { titulo: string; valor: string | number }[];
   datosMensuales: { mes: string; total: number }[];

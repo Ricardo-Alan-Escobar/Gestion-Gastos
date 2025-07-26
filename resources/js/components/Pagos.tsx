@@ -166,7 +166,7 @@ const handleSubmit = async (e: React.FormEvent) => {
         popup: 'text-sm rounded-md shadow-lg border-2 border-green-500',
       },
     });
-    // Esperar antes de recargar la página
+    
     setTimeout(() => {
       window.location.reload();
     }, 2500);

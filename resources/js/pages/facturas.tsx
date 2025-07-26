@@ -158,7 +158,7 @@ export default function Facturas({ facturas }: Props) {
             <Head title="Facturas" />
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
 
-                {/* Subida de archivo */}
+                
                 <form
                     onSubmit={handleSubmit}
                     encType="multipart/form-data"
@@ -194,7 +194,7 @@ export default function Facturas({ facturas }: Props) {
                     )}
                 </form>
 
-                {/* Lista de facturas */}
+                
                 <div className='flex flex-col gap-4 border w-full p-5 rounded-xl bg-white dark:bg-neutral-950 border-sidebar-border/70 dark:border-sidebar-border'>
                     <div className='w-full flex justify-between items-center'>
                         <div className='w-full'>
@@ -290,7 +290,7 @@ export default function Facturas({ facturas }: Props) {
                                  return fecha >= haceUnMes;
                              }
                          
-                             return true; // para 'recientes', 'antiguos', ''
+                             return true; 
                          })
                          .sort((a, b) => {
                              const fechaA = new Date(a.created_at).getTime();
