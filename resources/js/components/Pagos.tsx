@@ -37,10 +37,14 @@ const Pagos: React.FC = () => {
     });
   }, []);
 
-  // Filtrar pagos basado en el término de búsqueda
-  const pagosFiltrados = pagos.filter(pago =>
-    pago.nombre.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // Filtrar y ordenar pagos basado en el término de búsqueda y fecha de vencimiento
+  const pagosFiltrados = pagos
+    .filter(pago => pago.nombre.toLowerCase().includes(searchTerm.toLowerCase()))
+    .sort((a, b) => {
+      const fechaA = new Date(a.fecha);
+      const fechaB = new Date(b.fecha);
+      return fechaA.getTime() - fechaB.getTime(); // Orden ascendente (próximos a vencer primero)
+    });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setNuevoPago({ ...nuevoPago, [e.target.name]: e.target.value });
