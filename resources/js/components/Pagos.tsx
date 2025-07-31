@@ -204,7 +204,7 @@ const Pagos: React.FC = () => {
   };
 
   return (
-    <div className='w-1/2 p-5 bg-white dark:bg-neutral-950 border rounded-xl border-sidebar-border/70 dark:border-sidebar-border h-[36%] flex flex-col'>
+    <div className='w-1/2 p-5 bg-white dark:bg-neutral-950 border rounded-xl border-sidebar-border/70 dark:border-sidebar-border min-h-[300px] max-h-[750px] flex flex-col'>
       <div className='flex justify-between items-center mb-4 flex-shrink-0'>
         <div>
           <h1 className='text-2xl font-bold'>Pagos Pendientes</h1>
@@ -229,7 +229,7 @@ const Pagos: React.FC = () => {
         />
       </div>
 
-      <div className="flex flex-col space-y-4 overflow-y-auto flex-grow">
+      <div className="flex flex-col space-y-4 overflow-y-auto max-h-[750px]">
         {pagosFiltrados.length > 0 ? (
           pagosFiltrados.map((pago) => {
             const IconoSeleccionado = iconosDisponibles.find((icon) => icon.nombre === pago.icono)?.icono || CircleHelp;
